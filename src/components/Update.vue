@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
+
 let teams = reactive(["Anderlecht", "Antwerp", "OHL"]);
 let selectedTeam = ref(null);
 
@@ -27,11 +28,10 @@ const updateStats = () => {
     <h1>Update stats</h1>
     <label for="teamSelect">Select Team:</label>
     <select v-model="selectedTeam" id="teamSelect">
-      <option v-for="team in teams" :key="team" :value="team">{{ team }}</option>
+        <option v-for="team in teams" :key="team" :value="team">{{ team }}</option>
     </select>
     <input type="text" v-model="score">
     <button @click="updateStats">Update</button>
-    
 </template>
   
 <style scoped></style>
