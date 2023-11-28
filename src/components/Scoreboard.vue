@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 
-let data = reactive([{
+let data = ref([{
     "team": "Cercle Brugge",
     "score": "26"
 },
@@ -9,6 +9,24 @@ let data = reactive([{
     "team": "KAA Gent",
     "score": "28"
 }]);
+
+let socket = null;
+
+onMounted( () => {
+    socket = new WebSocket('ws://localhost:3000/primus');
+
+    //listen for new data
+    socket.onmessage = function (event) {
+        let m = JSON.parse(event.data);
+        console.log(m);
+        if (m.action === 'updateStats') {
+            data.value.push({
+                "team": m.team,
+                "score": m.score
+            });
+        }
+    };
+});
 </script>
 
 <template>
