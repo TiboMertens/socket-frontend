@@ -5,7 +5,20 @@ let selectedTeam = ref(null);
 
 let score = ref(null);
 
+let socket = null;
+
+onMounted(() => {
+    socket = new WebSocket('ws://localhost:3000/primus');
+});
+
 const updateStats = () => {
+    let m = {
+        "action": "updateStats",
+        "team": selectedTeam.value,
+        "score": score.value
+    };
+
+    socket.send(JSON.stringify(m));
 };
 
 </script>
